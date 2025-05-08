@@ -175,7 +175,19 @@ public class ChessPiece {
     }
 
     private Collection<ChessMove> hoppingMoves(ChessBoard board, ChessPosition start, ChessPiece piece, Collection<ChessPosition> hops) {
-        throw new RuntimeException("Not implemented");
+        HashSet<ChessMove> moves = new HashSet<>();
+        ChessGame.TeamColor color = piece.getTeamColor();
+        hops.forEach(hop -> {
+            if (!board.isOnBoard(hop)) return;
+            ChessPiece targetPiece = board.getPiece(hop);
+            ChessMove hopMove = new ChessMove(start, hop, null);
+            if (targetPiece != null) {
+                if (targetPiece.getTeamColor() == color) return;
+                hopMove.setIsCapture(true);
+            }
+            moves.add(hopMove);
+        });
+        return moves;
     }
 
     @Override
