@@ -201,12 +201,7 @@ public class ChessPiece {
         HashSet<ChessMove> movesWithPromotion = new HashSet<>();
         moves.forEach(move -> {
             if (move.getEndPosition().getRank() == promotionRank) {
-                movesWithPromotion.add(new ChessMove(move.getStartPosition(), move.getEndPosition(), PieceType.ROOK));
-                movesWithPromotion.add(new ChessMove(move.getStartPosition(), move.getEndPosition(), PieceType.KNIGHT));
-                movesWithPromotion.add(new ChessMove(move.getStartPosition(), move.getEndPosition(), PieceType.BISHOP));
-                movesWithPromotion.add(new ChessMove(move.getStartPosition(), move.getEndPosition(), PieceType.QUEEN));
-            } else {
-                movesWithPromotion.add(move);
+                movesWithPromotion.addAll(getPromotions(move));
             }
         });
         return movesWithPromotion;
