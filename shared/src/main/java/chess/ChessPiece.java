@@ -213,6 +213,21 @@ public class ChessPiece {
     }
 
     /**
+     * Returns a collection of all promotion variations of a ChessMove.
+     * ROOK, KNIGHT, BISHOP, and QUEEN.
+     * @param move the move that the promotions will take their start and end positions from
+     * @return a collection of chess moves with all promotions
+     */
+    private Collection<ChessMove> getPromotions(ChessMove move) {
+        Collection<ChessMove> promotions = new ArrayList<ChessMove>();
+        promotions.add(new ChessMove(move.getStartPosition(), move.getEndPosition(), PieceType.ROOK));
+        promotions.add(new ChessMove(move.getStartPosition(), move.getEndPosition(), PieceType.KNIGHT));
+        promotions.add(new ChessMove(move.getStartPosition(), move.getEndPosition(), PieceType.BISHOP));
+        promotions.add(new ChessMove(move.getStartPosition(), move.getEndPosition(), PieceType.QUEEN));
+        return promotions;
+    }
+
+    /**
      * Calculates all the positions a chess piece can slide to in a given direction
      * Does not take into account moves that are illegal due to leaving the king in
      * danger
