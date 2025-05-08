@@ -212,10 +212,10 @@ public class ChessPiece {
     private Collection<ChessMove> findMovesFromPositions(ChessBoard board, ChessPosition start, ChessPiece piece, Collection<ChessPosition> positions) {
         HashSet<ChessMove> moves = new HashSet<>();
         ChessGame.TeamColor color = piece.getTeamColor();
-        hops.forEach(hop -> {
-            if (!board.isOnBoard(hop)) return;
-            ChessPiece targetPiece = board.getPiece(hop);
-            ChessMove hopMove = new ChessMove(start, hop, null);
+        positions.forEach(target -> {
+            if (!board.isOnBoard(target)) return;
+            ChessPiece targetPiece = board.getPiece(target);
+            ChessMove hopMove = new ChessMove(start, target, null);
             if (targetPiece != null) {
                 if (targetPiece.getTeamColor() == color) return;
                 hopMove.setIsCapture(true);
