@@ -209,7 +209,7 @@ public class ChessPiece {
         return moves;
     }
 
-    private Collection<ChessMove> hoppingMoves(ChessBoard board, ChessPosition start, ChessPiece piece, Collection<ChessPosition> hops) {
+    private Collection<ChessMove> findMovesFromPositions(ChessBoard board, ChessPosition start, ChessPiece piece, Collection<ChessPosition> positions) {
         HashSet<ChessMove> moves = new HashSet<>();
         ChessGame.TeamColor color = piece.getTeamColor();
         hops.forEach(hop -> {
