@@ -176,7 +176,40 @@ public class ChessPiece {
      * @return Collection of valid moves
      */
     private Collection<ChessMove> pawnMoves(ChessBoard board, ChessPosition start, ChessPiece piece) {
-        throw new RuntimeException("Not implemented");
+        ChessGame.TeamColor color = piece.getTeamColor();
+        int startRank = start.getRank();
+        int startFile = start.getFile();
+        int advancementValue = color == ChessGame.TeamColor.WHITE ? 1 : -1;
+        int promotionRank = color == ChessGame.TeamColor.WHITE ? 8 : 1;
+        boolean onStartSquare = color == ChessGame.TeamColor.WHITE ? startRank == 2 : startRank == 7;
+        HashSet<ChessPosition> attacks = new HashSet<>();
+        attacks.add(new ChessPosition(startRank + advancementValue, startFile - 1));
+        attacks.add(new ChessPosition(startRank + advancementValue, startFile + 1));
+
+        HashSet<ChessMove> moves = new HashSet<>(findMovesFromPositions(board, start, piece, attacks));
+        moves.removeIf(move -> !move.isCapture());
+
+        ChessPosition oneForward = new ChessPosition(startRank + advancementValue, startFile);
+        ChessPiece oneForwardPiece = board.getPiece(oneForward);
+        if (oneForwardPiece == null && board.isOnBoard(oneForward)) {
+            moves.add(new ChessMove(start, oneForward, null));
+            ChessPosition twoForward = new ChessPosition(startRank + 2 * advancementValue, startFile);
+            if (onStartSquare && board.getPiece(twoForward) == null) {
+                moves.add(new ChessMove(start, twoForward, null));
+            }
+        }
+        HashSet<ChessMove> movesWithPromotion = new HashSet<>();
+        moves.forEach(move -> {
+            if (move.getEndPosition().getRank() == promotionRank) {
+                movesWithPromotion.add(new ChessMove(move.getStartPosition(), move.getEndPosition(), PieceType.ROOK));
+                movesWithPromotion.add(new ChessMove(move.getStartPosition(), move.getEndPosition(), PieceType.KNIGHT));
+                movesWithPromotion.add(new ChessMove(move.getStartPosition(), move.getEndPosition(), PieceType.BISHOP));
+                movesWithPromotion.add(new ChessMove(move.getStartPosition(), move.getEndPosition(), PieceType.QUEEN));
+            } else {
+                movesWithPromotion.add(move);
+            }
+        });
+        return movesWithPromotion;
     }
 
     /**
