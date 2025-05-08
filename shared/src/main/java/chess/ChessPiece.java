@@ -130,7 +130,12 @@ public class ChessPiece {
      * @return Collection of valid moves
      */
     private Collection<ChessMove> rookMoves(ChessBoard board, ChessPosition start, ChessPiece piece) {
-        throw new RuntimeException("Not implemented");
+        HashSet<ChessMove> moves = new HashSet<>();
+        moves.addAll(slidingMoves(board, start, piece, 1, 0));
+        moves.addAll(slidingMoves(board, start, piece, -1, 0));
+        moves.addAll(slidingMoves(board, start, piece, 0, 1));
+        moves.addAll(slidingMoves(board, start, piece, 0, -1));
+        return moves;
     }
 
     /**
@@ -161,7 +166,7 @@ public class ChessPiece {
             if (!board.isOnBoard(nextSpace)) break;
             ChessPiece nextPiece = board.getPiece(nextSpace);
             if (nextPiece != null) {
-                if (nextPiece.getTeamColor() == piece.getTeamColor()) {
+                if (nextPiece.getTeamColor() != color) {
                     ChessMove capture = new ChessMove(start, nextSpace, null);
                     capture.setIsCapture(true);
                     moves.add(capture);
