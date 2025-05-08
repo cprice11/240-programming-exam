@@ -215,7 +215,7 @@ public class ChessPiece {
      * @return a collection of chess moves with all promotions
      */
     private Collection<ChessMove> getPromotions(ChessMove move) {
-        Collection<ChessMove> promotions = new ArrayList<ChessMove>();
+        Collection<ChessMove> promotions = new ArrayList<>();
         promotions.add(new ChessMove(move.getStartPosition(), move.getEndPosition(), PieceType.ROOK));
         promotions.add(new ChessMove(move.getStartPosition(), move.getEndPosition(), PieceType.KNIGHT));
         promotions.add(new ChessMove(move.getStartPosition(), move.getEndPosition(), PieceType.BISHOP));
