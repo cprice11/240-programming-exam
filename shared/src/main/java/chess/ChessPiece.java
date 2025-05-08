@@ -97,7 +97,10 @@ public class ChessPiece {
      * @return Collection of valid moves
      */
     private Collection<ChessMove> queenMoves(ChessBoard board, ChessPosition start, ChessPiece piece) {
-        throw new RuntimeException("Not implemented");
+        HashSet<ChessMove> moves = new HashSet<>();
+        moves.addAll(rookMoves(board, start, piece));
+        moves.addAll(bishopMoves(board, start, piece));
+        return moves;
     }
 
     /**
@@ -108,7 +111,12 @@ public class ChessPiece {
      * @return Collection of valid moves
      */
     private Collection<ChessMove> bishopMoves(ChessBoard board, ChessPosition start, ChessPiece piece) {
-        throw new RuntimeException("Not implemented");
+        HashSet<ChessMove> moves = new HashSet<>();
+        moves.addAll(slidingMoves(board, start, piece, 1, -1));
+        moves.addAll(slidingMoves(board, start, piece, 1, 1));
+        moves.addAll(slidingMoves(board, start, piece, -1, -1));
+        moves.addAll(slidingMoves(board, start, piece, -1, 1));
+        return moves;
     }
 
     /**
@@ -119,7 +127,18 @@ public class ChessPiece {
      * @return Collection of valid moves
      */
     private Collection<ChessMove> knightMoves(ChessBoard board, ChessPosition start, ChessPiece piece) {
-        throw new RuntimeException("Not implemented");
+        HashSet<ChessPosition> hops = new HashSet<>();
+        int startRank = start.getRank();
+        int startFile = start.getFile();
+        hops.add(new ChessPosition(startRank + 2, startFile - 1));
+        hops.add(new ChessPosition(startRank + 2, startFile + 1));
+        hops.add(new ChessPosition(startRank + 1, startFile + 2));
+        hops.add(new ChessPosition(startRank - 1, startFile + 2));
+        hops.add(new ChessPosition(startRank - 2, startFile + 1));
+        hops.add(new ChessPosition(startRank - 2, startFile - 1));
+        hops.add(new ChessPosition(startRank - 1, startFile - 2));
+        hops.add(new ChessPosition(startRank + 1, startFile - 2));
+        return hoppingMoves(board, start, piece, hops);
     }
 
     /**
