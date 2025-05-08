@@ -12,7 +12,7 @@ import java.util.Objects;
  */
 public class ChessBoard {
     private final Hashtable<ChessPosition, ChessPiece> pieces = new Hashtable<>();
-    private static final int BOARD_SIZE = 8;
+    public static final int BOARD_SIZE = 8;
 
     @Override
     public boolean equals(Object o) {
@@ -81,6 +81,12 @@ public class ChessBoard {
         addPiece(new ChessPosition(8, 6), new ChessPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.BISHOP));
         addPiece(new ChessPosition(8, 7), new ChessPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.KNIGHT));
         addPiece(new ChessPosition(8, 8), new ChessPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.ROOK));
+    }
+
+    public boolean isOnBoard(ChessPosition position) {
+        int rank = position.getRank();
+        int file = position.getFile();
+        return rank >= 1 && rank <= BOARD_SIZE && file >= 1 && file <= BOARD_SIZE;
     }
 
     @Override

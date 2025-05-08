@@ -1,6 +1,7 @@
 package chess;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Objects;
 
 /**
@@ -66,6 +67,114 @@ public class ChessPiece {
      * @return Collection of valid moves
      */
     public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
+        ChessPiece piece = board.getPiece(myPosition);
+        return switch (piece.getPieceType()) {
+            case KING -> kingMoves(board, myPosition, piece);
+            case QUEEN -> queenMoves(board, myPosition, piece);
+            case BISHOP -> bishopMoves(board, myPosition, piece);
+            case KNIGHT -> knightMoves(board, myPosition, piece);
+            case ROOK -> rookMoves(board, myPosition, piece);
+            case PAWN -> pawnMoves(board, myPosition, piece);
+        };
+    }
+
+    /**
+     * Calculates all the positions a king piece can move to
+     * Does not take into account moves that are illegal due to leaving the king in
+     * danger
+     *
+     * @return Collection of valid moves
+     */
+    private Collection<ChessMove> kingMoves(ChessBoard board, ChessPosition start, ChessPiece piece) {
+        throw new RuntimeException("Not implemented");
+    }
+
+    /**
+     * Calculates all the positions a queen piece can move to
+     * Does not take into account moves that are illegal due to leaving the king in
+     * danger
+     *
+     * @return Collection of valid moves
+     */
+    private Collection<ChessMove> queenMoves(ChessBoard board, ChessPosition start, ChessPiece piece) {
+        throw new RuntimeException("Not implemented");
+    }
+
+    /**
+     * Calculates all the positions a bishop piece can move to
+     * Does not take into account moves that are illegal due to leaving the king in
+     * danger
+     *
+     * @return Collection of valid moves
+     */
+    private Collection<ChessMove> bishopMoves(ChessBoard board, ChessPosition start, ChessPiece piece) {
+        throw new RuntimeException("Not implemented");
+    }
+
+    /**
+     * Calculates all the positions a knight piece can move to
+     * Does not take into account moves that are illegal due to leaving the king in
+     * danger
+     *
+     * @return Collection of valid moves
+     */
+    private Collection<ChessMove> knightMoves(ChessBoard board, ChessPosition start, ChessPiece piece) {
+        throw new RuntimeException("Not implemented");
+    }
+
+    /**
+     * Calculates all the positions a rook piece can move to
+     * Does not take into account moves that are illegal due to leaving the king in
+     * danger
+     *
+     * @return Collection of valid moves
+     */
+    private Collection<ChessMove> rookMoves(ChessBoard board, ChessPosition start, ChessPiece piece) {
+        throw new RuntimeException("Not implemented");
+    }
+
+    /**
+     * Calculates all the positions a pawn piece can move to
+     * Does not take into account moves that are illegal due to leaving the king in
+     * danger
+     *
+     * @return Collection of valid moves
+     */
+    private Collection<ChessMove> pawnMoves(ChessBoard board, ChessPosition start, ChessPiece piece) {
+        throw new RuntimeException("Not implemented");
+    }
+
+    /**
+     * Calculates all the positions a chess piece can slide to in a given direction
+     * Does not take into account moves that are illegal due to leaving the king in
+     * danger
+     *
+     * @return Collection of valid moves
+     */
+    private Collection<ChessMove> slidingMoves(ChessBoard board, ChessPosition start, ChessPiece piece, int rankIncrement, int fileIncrement) {
+        HashSet<ChessMove> moves = new HashSet<>();
+        ChessGame.TeamColor color = piece.getTeamColor();
+        int startRank = start.getRank();
+        int startFile = start.getFile();
+        for (int i = 1; i <= ChessBoard.BOARD_SIZE; i++) {
+            ChessPosition nextSpace = new ChessPosition(startRank + i * rankIncrement, startFile + i * fileIncrement);
+            if (!board.isOnBoard(nextSpace)) break;
+            ChessPiece nextPiece = board.getPiece(nextSpace);
+            if (nextPiece != null) {
+                if (nextPiece.getTeamColor() == piece.getTeamColor()) {
+                    ChessMove capture = new ChessMove(start, nextSpace, null);
+                    capture.setIsCapture(true);
+                    moves.add(capture);
+                }
+                break;
+            }
+            ChessMove slide = new ChessMove(start, nextSpace, null);
+            moves.add(slide);
+        }
+        return moves;
+    }
+
+    private Collection<ChessMove> hoppingMoves(ChessBoard board, ChessPosition start, ChessPiece piece, Collection<ChessPosition> hops) {
         throw new RuntimeException("Not implemented");
     }
 
