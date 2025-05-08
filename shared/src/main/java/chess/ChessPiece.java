@@ -86,7 +86,18 @@ public class ChessPiece {
      * @return Collection of valid moves
      */
     private Collection<ChessMove> kingMoves(ChessBoard board, ChessPosition start, ChessPiece piece) {
-        throw new RuntimeException("Not implemented");
+        HashSet<ChessPosition> hops = new HashSet<>();
+        int startRank = start.getRank();
+        int startFile = start.getFile();
+        hops.add(new ChessPosition(startRank + 1, startFile - 1));
+        hops.add(new ChessPosition(startRank + 1, startFile));
+        hops.add(new ChessPosition(startRank + 1, startFile + 1));
+        hops.add(new ChessPosition(startRank, startFile - 1));
+        hops.add(new ChessPosition(startRank, startFile + 1));
+        hops.add(new ChessPosition(startRank - 1, startFile - 1));
+        hops.add(new ChessPosition(startRank - 1, startFile));
+        hops.add(new ChessPosition(startRank - 1, startFile + 1));
+        return hoppingMoves(board, start, piece, hops);
     }
 
     /**
