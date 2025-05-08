@@ -1,5 +1,6 @@
 package chess;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Objects;
@@ -172,7 +173,6 @@ public class ChessPiece {
      * Calculates all the positions a pawn piece can move to
      * Does not take into account moves that are illegal due to leaving the king in
      * danger
-     *
      * @return Collection of valid moves
      */
     private Collection<ChessMove> pawnMoves(ChessBoard board, ChessPosition start, ChessPiece piece) {
@@ -182,6 +182,7 @@ public class ChessPiece {
         int advancementValue = color == ChessGame.TeamColor.WHITE ? 1 : -1;
         int promotionRank = color == ChessGame.TeamColor.WHITE ? 8 : 1;
         boolean onStartSquare = color == ChessGame.TeamColor.WHITE ? startRank == 2 : startRank == 7;
+
         HashSet<ChessPosition> attacks = new HashSet<>();
         attacks.add(new ChessPosition(startRank + advancementValue, startFile - 1));
         attacks.add(new ChessPosition(startRank + advancementValue, startFile + 1));
@@ -202,7 +203,7 @@ public class ChessPiece {
         moves.forEach(move -> {
             if (move.getEndPosition().getRank() == promotionRank) {
                 movesWithPromotion.addAll(getPromotions(move));
-            }
+            } else movesWithPromotion.add(move);
         });
         return movesWithPromotion;
     }
@@ -244,6 +245,14 @@ public class ChessPiece {
         return movesFromPositions(board, start, piece, visiblePositions);
     }
 
+    /**
+     * Takes a collection of positions and returns moves calculated from them while handling captures.
+     * @param board the game board containing the pieces
+     * @param start the starting position of the move
+     * @param piece the piece on that position
+     * @param positions the collection of ChessPositions the moves would end on
+     * @return a collection of ChessMoves
+     */
     private Collection<ChessMove> movesFromPositions(ChessBoard board, ChessPosition start, ChessPiece piece, Collection<ChessPosition> positions) {
         HashSet<ChessMove> moves = new HashSet<>();
         ChessGame.TeamColor color = piece.getTeamColor();
